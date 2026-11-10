@@ -8,6 +8,8 @@
 	- execute(): runOperation() (the subclass); the result in the variable, logged as "<label> <operation>: <summary> (<n> ms)"; a \RuntimeException (ANAF's or BNR's errors,
 	    no connection, a value that cannot be used) follows On error; other errors fail the step
 	- xmlOf(): an XML setting, as text or as a project file ({{ file }} of another step, or its id); saveFile(): a file saved in the project's Files
+    CLD: 2026-11-10T16:00:00+02:00: the credential of $capability (default ANAF's: its client util\Anaf in $anaf; another's: $cred->client($timeout) in $client), named $credentialLabel; jsonOf(): a
+	JSON setting (an object or a list, or its text); the Call the API operation of the services' steps (apiFields(), apiCall())
 */
 
 namespace plugins\RegionalRO\models\node;
@@ -36,9 +38,14 @@ abstract class NodeAppRo extends \models\wf\WfNode {
     //the largest XML read from a setting or a file
     const MAX_XML = 20 * 1024 * 1024;
 
-    //the run: the credential (null when the operation needs none), its client, the start and the timeout
+    //CLD: 2026-11-10T16:00:00+02:00: the capability of the step's credential, its label
+    public static $capability = 'anaf';
+    public static $credentialLabel = 'ANAF credential';
+
+    //the run: the credential (null when the operation needs none), its client (ANAF's: $anaf; another's: $client), the start and the timeout
     protected $cred = null;
     protected $anaf = null;
+    protected $client = null;
     protected $start = 0;
     protected $timeout = 60;
 
@@ -55,7 +62,7 @@ abstract class NodeAppRo extends \models\wf\WfNode {
     public static function credentialChoices() {
 	$choices = [];
 	if (\V::app()->config('app.mode') == 'web' && !\V::app()->user->isGuest && !empty(\V::app()->user->crtProject))
-	    foreach(\models\Credential::choicesFor('anaf', \V::app()->config('rt.account')->_id ?? null, \V::app()->user->crtProject) as $c)
+	    foreach(\models\Credential::choicesFor(static::$capability, \V::app()->config('rt.account')->_id ?? null, \V::app()->user->crtProject) as $c)
 		$choices[$c['value']] = $c['label'];
 	return $choices;
     }
@@ -67,9 +74,9 @@ abstract class NodeAppRo extends \models\wf\WfNode {
 	    $fields[] = [
 		'key' => 'credential',
 		'type' => 'select',
-		'label' => 'ANAF credential',
-		'choices' => self::credentialChoices(),
-		'help' => 'An ANAF (SPV) credential of the project',
+		'label' => static::$credentialLabel,
+		'choices' => static::credentialChoices(),
+		'help' => 'A credential of the project',
 		'default' => '',
 	    ] + ($all ? [ 'required' => true ] : [ 'requiredIf' => [ 'if' => 'operation', 'in' => static::CREDENTIAL_OPS ],
 		'ui' => [ 'showIf' => [ 'key' => 'operation', 'operator' => 'in', 'value' => static::CREDENTIAL_OPS ] ] ]);
@@ -175,8 +182,8 @@ abstract class NodeAppRo extends \models\wf\WfNode {
 	$valid = parent::validates($options);
 	$cred = (string)$this->cfg('credential', '');
 	if (in_array(static::operationOf($this->config), static::CREDENTIAL_OPS, true) && $cred !== ''
-	    && (!$this->workflow || empty(\models\Credential::findFor($this->workflow, $cred, 'anaf')))) {
-	    $this->errors('config', static::$label . ': choose an ANAF credential of this project');
+	    && (!$this->workflow || empty(\models\Credential::findFor($this->workflow, $cred, static::$capability)))) {
+	    $this->errors('config', static::$label . ': choose a credential of this project (' . static::$credentialLabel . ')');
 	    $valid = false;
 	}
 	return $valid;
@@ -193,10 +200,13 @@ abstract class NodeAppRo extends \models\wf\WfNode {
 	$this->start = microtime(true);
 	$this->timeout = max(1, min(self::MAX_TIMEOUT, (int)$this->cfg('timeout', static::DEFAULT_TIMEOUT)));
 	if (in_array($operation, static::CREDENTIAL_OPS, true)) {
-	    $this->cred = \models\Credential::findFor($this->exec, (string)$this->cfg('credential', ''), 'anaf');
+	    $this->cred = \models\Credential::findFor($this->exec, (string)$this->cfg('credential', ''), static::$capability);
 	    if (empty($this->cred))
-		throw new \ErrorException(static::$label . ': the ANAF credential is no longer available');
-	    $this->anaf = new \plugins\RegionalRO\util\Anaf($this->cred, $this->timeout);
+		throw new \ErrorException(static::$label . ': the credential is no longer available');
+	    if (static::$capability === 'anaf')
+		$this->anaf = new \plugins\RegionalRO\util\Anaf($this->cred, $this->timeout);
+	    else
+		$this->client = $this->cred->client($this->timeout);
 	}
 
 	$name = (string)$this->cfg('variable', static::$defaultVariable);
@@ -294,6 +304,51 @@ abstract class NodeAppRo extends \models\wf\WfNode {
 	] ]);
 	return [ 'id' => (string)$id, 'filename' => $filename, 'size' => strlen((string)$content),
 	    'contentType' => \models\File::CONTENT_TYPES[strtolower(pathinfo($filename, PATHINFO_EXTENSION))] ?? 'application/octet-stream' ];
+    }
+
+    //CLD: 2026-11-10T16:00:00+02:00: a JSON setting: an object ($list false) or a list, given as one ({{ }} of another step, a tool's argument) or as its text; [] when empty
+    protected function jsonOf(\Closure $value, $key, $label, $list = false) {
+	$v = $value($key);
+	if (is_string($v)) {
+	    if (trim($v) === '')
+		return [];
+	    $d = json_decode($v, true);
+	    if (!is_array($d))
+		throw new \RuntimeException("{$label}: not JSON (" . json_last_error_msg() . ')');
+	    $v = $d;
+	}
+	if ($v === null || $v === '')
+	    return [];
+	if (!is_array($v) || ($v && array_is_list($v) !== $list))
+	    throw new \RuntimeException("{$label}: " . ($list ? 'a list' : 'an object'));
+	return $v;
+    }
+
+    //CLD: 2026-11-10T16:00:00+02:00: the settings of Call the API (operation `api`): method, path, query, body
+    protected static function apiFields($pathHelp, $bodyHelp = 'A JSON object (or list) sent as the body; empty: none') {
+	return [
+	    self::field('apiMethod', 'Method', [ 'api' ], [ 'type' => 'select', 'default' => 'GET', 'choices' => [ 'GET' => 'GET', 'POST' => 'POST', 'PUT' => 'PUT', 'DELETE' => 'DELETE' ],
+		'ui' => [ 'width' => 3 ] ]),
+	    self::field('apiPath', 'Path', [ 'api' ], [ 'required' => true, 'help' => $pathHelp, 'ui' => [ 'expression' => 'text', 'width' => 9 ] ]),
+	    self::field('apiQuery', 'Query', [ 'api' ], [ 'type' => 'textarea', 'help' => 'A JSON object of the query\'s parameters; empty: none',
+		'ui' => [ 'rows' => 2, 'expression' => true, 'code' => true, 'agent' => [ 'type' => 'object' ] ] ]),
+	    self::field('apiBody', 'Body', [ 'api' ], [ 'type' => 'textarea', 'help' => $bodyHelp, 'ui' => [ 'rows' => 3, 'expression' => true, 'code' => true ] ]),
+	];
+    }
+
+    //CLD: 2026-11-10T16:00:00+02:00: Call the API: [ method, path (no scheme, no ..), query, body (null: none) ]
+    protected function apiCall(\Closure $text, \Closure $value) {
+	$method = in_array((string)$this->cfg('apiMethod', 'GET'), [ 'GET', 'POST', 'PUT', 'DELETE' ], true) ? (string)$this->cfg('apiMethod', 'GET') : 'GET';
+	$path = ltrim($text('apiPath'), '/');
+	if ($path === '' || preg_match('~^[a-z]+:|\.\.|[\s\\]~i', $path))
+	    throw new \RuntimeException('Path: a path of the API, such as ' . 'invoice/pdf (no address, no ..)');
+	$body = $value('apiBody');
+	if (is_string($body)) {
+	    $body = trim($body) === '' ? null : json_decode($body, true);
+	    if ($body === null && trim((string)$value('apiBody')) !== '')
+		throw new \RuntimeException('Body: not JSON');
+	}
+	return [ $method, $path, $this->jsonOf($value, 'apiQuery', 'Query'), $body ];
     }
 
     //a whole number of setting $key, from $min to $max
