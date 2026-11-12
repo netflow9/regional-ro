@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: a SmartBill Cloud account's API access, for the SmartBill step (util\SmartBill): the account's email, its API token (encrypted; SmartBill:
+    a SmartBill Cloud account's API access, for the SmartBill step (util\SmartBill): the account's email, its API token (encrypted; SmartBill:
     Integrari > API), the company's CIF the documents are issued for (companyVatCode). Test: the company's VAT rates. Provides `smartbill`
 */
 

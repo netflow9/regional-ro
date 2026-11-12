@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: the client of Sameday's API (https://api.sameday.ro, demo https://sameday-api.demo.zitec.com; as Sameday's own PHP SDK calls it), for the Sameday
+    the client of Sameday's API (https://api.sameday.ro, demo https://sameday-api.demo.zitec.com; as Sameday's own PHP SDK calls it), for the Sameday
     step and credential. Sign-in: POST /api/authenticate with the headers X-AUTH-USERNAME, X-AUTH-PASSWORD (remember_me): { token, expire_at }; then the header X-AUTH-TOKEN (the token
     kept in the process: Rest::token). The bodies are form fields (awbRecipient[name], parcels[0][weight], ...); the answers JSON, the lists paged ({ data, total, pages, currentPage }).
 	$s->call($method, $path, $query, $form)   the answer's JSON (a 401 signs in again, once); errors as \RuntimeException

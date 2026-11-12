@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new step: Cargus - shipments with Cargus (UrgentCargus API; util\Cargus). Operations (setting `operation`):
+    Cargus - shipments with Cargus (UrgentCargus API; util\Cargus). Operations (setting `operation`):
 	awb / price    make an AWB (POST Awbs: the AWB's number) or only its price (POST ShippingCalculation: { BaseCost, ..., Subtotal, Tax, GrandTotal }): the pickup location (empty:
 	               the credential's), the recipient (name, county, locality, address, contact person, phone, email, postal code), parcels, envelopes, weight, the service (empty:
 	               by weight: 34 up to 31 kg, 35 up to 50, 50 above), declared value, cash on delivery (cash / to the account), open package, Saturday / morning delivery, who pays,

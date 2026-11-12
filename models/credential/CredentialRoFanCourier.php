@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: a FAN Courier account's API access (selfAWB), for the FAN Courier step (util\FanCourier): the selfAWB user and its password (encrypted), the
+    a FAN Courier account's API access (selfAWB), for the FAN Courier step (util\FanCourier): the selfAWB user and its password (encrypted), the
     client id (the sender's branch, clientId) the AWBs are made for. Test: sign in, the services. Provides `fancourier`
 */
 

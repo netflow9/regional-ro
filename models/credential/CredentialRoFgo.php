@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: an FGO account's API access, for the FGO step (util\Fgo): the company's CUI (CodUnic), the API user's private key (encrypted; FGO: Setari >
+    an FGO account's API access, for the FGO step (util\Fgo): the company's CUI (CodUnic), the API user's private key (encrypted; FGO: Setari >
     Utilizatori, a PRO or PREMIUM subscription), the address of the calling application FGO is told (PlatformaUrl; empty: this installation's), FGO's test environment (testuat).
     Test: FGO answers (its VAT rates; the key is checked by the invoices' operations only). Provides `fgo`
 */

@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T12:00:00+02:00: new step: ANAF e-Transport - the declarations of goods transported in Romania (RO e-Transport: the UIT code; ETRANSPORT/ws/v1; util\Anaf).
+    ANAF e-Transport - the declarations of goods transported in Romania (RO e-Transport: the UIT code; ETRANSPORT/ws/v1; util\Anaf).
     Operations (setting `operation`):
 	upload      send a declaration's XML (schema eTransport v2: a notification, a correction, a deletion, a confirmation, a vehicle change) for a CIF (upload/ETRANSP/<cif>/2):
 	            { uploadId, uit (the code the transport travels with, of a new notification), date, warning, traceId }

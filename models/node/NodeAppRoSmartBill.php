@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new step: SmartBill - invoices, proformas (estimates) and payments in SmartBill Cloud (API V1; util\SmartBill), for the credential's company.
+    SmartBill - invoices, proformas (estimates) and payments in SmartBill Cloud (API V1; util\SmartBill), for the credential's company.
     Operations (setting `operation`):
 	invoice / estimate / payment   issue a document: the body as SmartBill names it (Document: client, products, ...; companyVatCode and seriesName added from the credential and
 	                               Series when it has none): { series, number, url, ... }

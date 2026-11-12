@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T12:00:00+02:00: new: the reference exchange rates of the National Bank of Romania (BNR), for the BNR Exchange Rates step. Public XML files on curs.bnr.ro (www.bnr.ro's
+    the reference exchange rates of the National Bank of Romania (BNR), for the BNR Exchange Rates step. Public XML files on curs.bnr.ro (www.bnr.ro's
     addresses redirect to its home page):
 	nbrfxrates.xml                    the latest day's (published each banking day about 13:00, Romania's time)
 	files/xml/years/nbrfxrates<Y>.xml every banking day of year Y (from 2005)

@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: the client of SmartBill Cloud's API V1 (https://ws.smartbill.ro/SBORO/api; spec: api.smartbill.ro), for the SmartBill step and credential.
+    the client of SmartBill Cloud's API V1 (https://ws.smartbill.ro/SBORO/api; spec: api.smartbill.ro), for the SmartBill step and credential.
     Basic auth: the account's email and its API token (Integrari > API). JSON both ways; the answer's `errorText` says what went wrong (empty: it went well), with HTTP 400 too.
     SmartBill's limit: 30 calls in 10 s per token (over it: blocked for 10 minutes).
 	$s->call($method, $path, $query, $body)   the answer's JSON; its errors as \RuntimeException

@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T12:00:00+02:00: new: the client of ANAF's services (Agenția Națională de Administrare Fiscală), for the RegionalRO steps and the ANAF credential.
+    the client of ANAF's services (Agenția Națională de Administrare Fiscală), for the RegionalRO steps and the ANAF credential.
     Public, no credential (webservicesp.anaf.ro):
 	lookup($cuis, $date)        the companies of CUI / CIF codes on a date (PlatitorTvaRest v9): at most 100 codes a request, 1 request a second (ANAF's limits; longer lists
 	                            are sent 100 at a time, a second apart): [ found (ANAF's records), notFound (the codes) ]

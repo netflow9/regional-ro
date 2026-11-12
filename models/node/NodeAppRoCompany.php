@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T12:00:00+02:00: new step: ANAF Company Lookup - Romanian companies by CUI / CIF, from ANAF's public register (util\Anaf::lookup; no credential): name, address,
+    ANAF Company Lookup - Romanian companies by CUI / CIF, from ANAF's public register (util\Anaf::lookup; no credential): name, address,
     trade register number, CAEN code, VAT payer (and its period), VAT on collection, split VAT, inactive, registered for e-Factura, the head office and the fiscal address, on a date
     (empty: today). One or more codes (separated by commas / new lines, or a list: of codes, or of objects with `cui` / `cif`), with or without RO; their control digit checked.
     The result: { items (util\Anaf::company: short names + `anaf`, the record as ANAF gives it), count, company (the first, or null), notFound, invalid }; codes ANAF does not know are
@@ -66,7 +66,7 @@ class NodeAppRoCompany extends NodeAppRo {
 	[ $found, $notFound ] = Anaf::lookup($cuis, $date, $this->start, $this->timeout);
 	$items = array_map(fn($f) => Anaf::company((array)$f), $found);
 	$result = [ 'items' => $items, 'count' => count($items), 'company' => $items[0] ?? null, 'notFound' => $notFound, 'invalid' => $invalid ];
-	//CLD: 2026-11-10T14:00:00+02:00: an AI step's tool: without ANAF's own record and the first company again (the short names say the same; the model's result is cut at a length)
+	//an AI step's tool: without ANAF's own record and the first company again (the short names say the same; the model's result is cut at a length)
 	if ($this->toolCall) {
 	    $result['items'] = array_map(fn($c) => array_diff_key($c, [ 'anaf' => true ]), $items);
 	    unset($result['company']);

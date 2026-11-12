@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new step: Sameday - shipments with Sameday (util\Sameday). Operations (setting `operation`):
+    Sameday - shipments with Sameday (util\Sameday). Operations (setting `operation`):
 	awb / estimate   make an AWB (POST api/awb: { awbNumber, awbCost, parcels, pdfLink }) or only its price (api/awb/estimate-cost: { amount, currency, time }): the pickup point
 	                 (empty: the account's default one, and its first contact person), the service, the package type, the parcels (one of Weight, or a list of { weight, width,
 	                 length, height }), who pays, cash on delivery, insured value, the recipient (name, phone, email, county, city, address, postal code; a company: name, CUI),

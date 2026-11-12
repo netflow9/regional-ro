@@ -1,14 +1,14 @@
 <?php
 
 /*
-    CLD: 2026-11-10T12:00:00+02:00: new class: the base of the RegionalRO steps (not registered itself), as the core's integration bases (models\node\NodeAppNamecheap):
+    the base of the RegionalRO steps (not registered itself), as the core's integration bases (models\node\NodeAppNamecheap):
 	- the shape: one input, `success` (+ `error` when On error is "Continue on the `error` output"); in the picker's group Regional
 	- the settings: the ANAF credential (for the operations of CREDENTIAL_OPS; none: the step has no credential), the operation (static::OPERATIONS; one: not shown), the operation's
 	    own settings (operationFields(): each shown for its operations), At most (the lists: LISTS), timeout, result variable, on error
 	- execute(): runOperation() (the subclass); the result in the variable, logged as "<label> <operation>: <summary> (<n> ms)"; a \RuntimeException (ANAF's or BNR's errors,
 	    no connection, a value that cannot be used) follows On error; other errors fail the step
 	- xmlOf(): an XML setting, as text or as a project file ({{ file }} of another step, or its id); saveFile(): a file saved in the project's Files
-    CLD: 2026-11-10T16:00:00+02:00: the credential of $capability (default ANAF's: its client util\Anaf in $anaf; another's: $cred->client($timeout) in $client), named $credentialLabel; jsonOf(): a
+    the credential of $capability (default ANAF's: its client util\Anaf in $anaf; another's: $cred->client($timeout) in $client), named $credentialLabel; jsonOf(): a
 	JSON setting (an object or a list, or its text); the Call the API operation of the services' steps (apiFields(), apiCall())
 */
 
@@ -19,7 +19,6 @@ abstract class NodeAppRo extends \models\wf\WfNode {
 
     public static $type = 'app';
     public static $icon = 'bi-flag';
-    public static $color = 'var(--wf-color-app)';
     public static $category = 'regional';
     public static $inputs = 1;
     public static $outputs = 1;
@@ -38,7 +37,7 @@ abstract class NodeAppRo extends \models\wf\WfNode {
     //the largest XML read from a setting or a file
     const MAX_XML = 20 * 1024 * 1024;
 
-    //CLD: 2026-11-10T16:00:00+02:00: the capability of the step's credential, its label
+    //the capability of the step's credential, its label
     public static $capability = 'anaf';
     public static $credentialLabel = 'ANAF credential';
 
@@ -306,7 +305,7 @@ abstract class NodeAppRo extends \models\wf\WfNode {
 	    'contentType' => \models\File::CONTENT_TYPES[strtolower(pathinfo($filename, PATHINFO_EXTENSION))] ?? 'application/octet-stream' ];
     }
 
-    //CLD: 2026-11-10T16:00:00+02:00: a JSON setting: an object ($list false) or a list, given as one ({{ }} of another step, a tool's argument) or as its text; [] when empty
+    //a JSON setting: an object ($list false) or a list, given as one ({{ }} of another step, a tool's argument) or as its text; [] when empty
     protected function jsonOf(\Closure $value, $key, $label, $list = false) {
 	$v = $value($key);
 	if (is_string($v)) {
@@ -324,7 +323,7 @@ abstract class NodeAppRo extends \models\wf\WfNode {
 	return $v;
     }
 
-    //CLD: 2026-11-10T16:00:00+02:00: the settings of Call the API (operation `api`): method, path, query, body
+    //the settings of Call the API (operation `api`): method, path, query, body
     protected static function apiFields($pathHelp, $bodyHelp = 'A JSON object (or list) sent as the body; empty: none') {
 	return [
 	    self::field('apiMethod', 'Method', [ 'api' ], [ 'type' => 'select', 'default' => 'GET', 'choices' => [ 'GET' => 'GET', 'POST' => 'POST', 'PUT' => 'PUT', 'DELETE' => 'DELETE' ],
@@ -336,7 +335,7 @@ abstract class NodeAppRo extends \models\wf\WfNode {
 	];
     }
 
-    //CLD: 2026-11-10T16:00:00+02:00: Call the API: [ method, path (no scheme, no ..), query, body (null: none) ]
+    //Call the API: [ method, path (no scheme, no ..), query, body (null: none) ]
     protected function apiCall(\Closure $text, \Closure $value) {
 	$method = in_array((string)$this->cfg('apiMethod', 'GET'), [ 'GET', 'POST', 'PUT', 'DELETE' ], true) ? (string)$this->cfg('apiMethod', 'GET') : 'GET';
 	$path = ltrim($text('apiPath'), '/');

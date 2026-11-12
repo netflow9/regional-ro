@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T12:00:00+02:00: new: RegionalRO: the steps and credentials of Romania (its public institutions and services), for the installations that serve Romanian
+    RegionalRO: the steps and credentials of Romania (its public institutions and services), for the installations that serve Romanian
     accounts. One plugin per country or region (Regional<code>: RegionalRO, later e.g. RegionalBG, RegionalEU), each installed on its own: kept in its own repository, cloned
     into app/plugins/, turned on in plugins.json (plugins.json.example: this plugin's entry as shipped).
     Its steps and credentials are registered here (\V::app()->om->registerObjects: `wfNode` for a step, `variant-of` Credential for a credential), as the core's are in
@@ -13,14 +13,14 @@
 	  NodeAppRoETransport   ANAF e-Transport: upload (the UIT), status, list
       models/credential/    CredentialRoAnaf: ANAF (SPV), OAuth with the holder's qualified certificate; provides `anaf`
       util/                 Anaf (ANAF's services), Bnr (BNR's rates)
-    CLD: 2026-11-10T16:00:00+02:00: + the invoicing and courier services, each a step, a credential (group Romania) and a client (util/; Rest: their requests):
+    the invoicing and courier services, each a step, a credential (group Romania) and a client (util/; Rest: their requests):
 	  NodeAppRoSmartBill    SmartBill: invoices, proformas, payments, PDF, email, series, VAT rates, stocks (CredentialRoSmartBill, `smartbill`)
 	  NodeAppRoFgo          FGO: invoices (issue, PDF, status, cancel, delete, reverse, AWB, payment), nomenclatures, articles (CredentialRoFgo, `fgo`)
 	  NodeAppRoSameday      Sameday: AWB, cost, status, label, delete, pickup points, services, easyboxes, cities (CredentialRoSameday, `sameday`)
 	  NodeAppRoFanCourier   FAN Courier: AWB, tariff, tracking, labels, delete, services, counties, localities (CredentialRoFanCourier, `fancourier`)
 	  NodeAppRoCargus       Cargus: AWB, price, details, trace, documents, delete, pickup locations, counties, localities (CredentialRoCargus, `cargus`)
 	each with Call the API (any call of the service, through the credential)
-    CLD: 2026-11-10T14:00:00+02:00: the steps as the tools of AI steps (the core's util\AgentTools, hook agent:families): ANAF Company Lookup and BNR Exchange Rates (public: no credential;
+    the steps as the tools of AI steps (the core's util\AgentTools, hook agent:families): ANAF Company Lookup and BNR Exchange Rates (public: no credential;
     tools ro_company_lookup, ro_bnr_rates, ro_bnr_convert), ANAF e-Factura / e-Transport (an ANAF credential; anaf_efactura_<operation>, anaf_etransport_<operation>)
 */
 
@@ -33,7 +33,7 @@ class Plugin {
 		'class' => __NAMESPACE__ . '\\models\\credential\\CredentialRoAnaf',
 		'variant-of' => 'Credential',
 	    ],
-	    //CLD: 2026-11-10T16:00:00+02:00: the invoicing and courier services' credentials
+	    //the invoicing and courier services' credentials
 	    'CredentialRoSmartBill' => [
 		'class' => __NAMESPACE__ . '\\models\\credential\\CredentialRoSmartBill',
 		'variant-of' => 'Credential',
@@ -70,7 +70,7 @@ class Plugin {
 		'class' => __NAMESPACE__ . '\\models\\node\\NodeAppRoETransport',
 		'wfNode' => true,
 	    ],
-	    //CLD: 2026-11-10T16:00:00+02:00: the invoicing and courier services' steps
+	    //the invoicing and courier services' steps
 	    'NodeAppRoSmartBill' => [
 		'class' => __NAMESPACE__ . '\\models\\node\\NodeAppRoSmartBill',
 		'wfNode' => true,
@@ -93,13 +93,13 @@ class Plugin {
 	    ],
 	]);
 
-	//CLD: 2026-11-10T14:00:00+02:00: the families of the AI steps' tools
+	//the families of the AI steps' tools
 	\V::app()->hooks->addHook('agent:families', function(\ArrayObject $families) {
 	    $families['roCompany'] = [ 'label' => 'ANAF Company Lookup', 'prefix' => 'ro_company', 'credential' => false, 'steps' => [ models\node\NodeAppRoCompany::class ] ];
 	    $families['roBnr'] = [ 'label' => 'BNR Exchange Rates', 'prefix' => 'ro_bnr', 'credential' => false, 'steps' => [ models\node\NodeAppRoBnr::class ] ];
 	    $families['roAnaf'] = [ 'label' => 'ANAF e-Factura / e-Transport', 'prefix' => 'anaf', 'capability' => 'anaf',
 		'steps' => [ models\node\NodeAppRoEFactura::class, models\node\NodeAppRoETransport::class ] ];
-	    //CLD: 2026-11-10T16:00:00+02:00: the invoicing and courier services (tools <prefix>_<operation>)
+	    //the invoicing and courier services (tools <prefix>_<operation>)
 	    $families['roSmartBill'] = [ 'label' => 'SmartBill', 'prefix' => 'smartbill', 'capability' => 'smartbill', 'steps' => [ models\node\NodeAppRoSmartBill::class ] ];
 	    $families['roFgo'] = [ 'label' => 'FGO', 'prefix' => 'fgo', 'capability' => 'fgo', 'steps' => [ models\node\NodeAppRoFgo::class ] ];
 	    $families['roSameday'] = [ 'label' => 'Sameday', 'prefix' => 'sameday', 'capability' => 'sameday', 'steps' => [ models\node\NodeAppRoSameday::class ] ];

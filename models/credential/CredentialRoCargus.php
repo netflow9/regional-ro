@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: a Cargus account's API access, for the Cargus step (util\Cargus): the subscription key (encrypted; Cargus's API portal, product
+    a Cargus account's API access, for the Cargus step (util\Cargus): the subscription key (encrypted; Cargus's API portal, product
     StandardUrgentOnlineAPI: its Primary Key), the WebExpress user and its password (encrypted), the pickup location the AWBs leave from by default, the API's address (empty:
     https://urgentcargus.azure-api.net/api). Test: sign in, the pickup locations. Provides `cargus`
 */

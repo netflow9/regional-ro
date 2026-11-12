@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: a Sameday (courier) account's API access, for the Sameday step (util\Sameday): the API user and its password (encrypted; from Sameday), the demo
+    a Sameday (courier) account's API access, for the Sameday step (util\Sameday): the API user and its password (encrypted; from Sameday), the demo
     environment or production. Test: sign in, the pickup points. Provides `sameday`
 */
 

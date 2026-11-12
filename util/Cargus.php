@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: the client of Cargus's API (UrgentCargus, StandardUrgentOnlineAPI: https://urgentcargus.azure-api.net/api; documentation API V3), for the
+    the client of Cargus's API (UrgentCargus, StandardUrgentOnlineAPI: https://urgentcargus.azure-api.net/api; documentation API V3), for the
     Cargus step and credential. Every request has the header Ocp-Apim-Subscription-Key (the Primary Key of the subscription in Cargus's API portal); sign-in: POST LoginUser
     { UserName, Password } -> the token (a JSON text, 24 hours; kept in the process: Rest::token), then Authorization: Bearer. JSON both ways; errors are an HTTP status with a text.
 	$c->call($method, $path, $query, $json)   the answer's JSON (a 401 signs in again, once); errors as \RuntimeException

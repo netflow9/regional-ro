@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: the client of FGO's API v7 (https://api.fgo.ro/v1, test https://api-testuat.fgo.ro/v1), for the FGO step and credential. Every request is a
+    the client of FGO's API v7 (https://api.fgo.ro/v1, test https://api-testuat.fgo.ro/v1), for the FGO step and credential. Every request is a
     JSON POST (form data is refused) with CodUnic (the company's CUI), Hash and PlatformaUrl (the address of the calling application); the hash is SHA-1, upper case, of:
 	issuing an invoice (factura/emitere)    CodUnic + private key + the client's name (Client.Denumire)
 	the other invoice operations            CodUnic + private key + the invoice's number (Numar, or NumarFactura for payments)

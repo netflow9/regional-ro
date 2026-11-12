@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T12:00:00+02:00: new step: ANAF e-Factura - RO e-Factura, the national system of electronic invoices (FCTEL/rest; util\Anaf). Operations (setting `operation`):
+    ANAF e-Factura - RO e-Factura, the national system of electronic invoices (FCTEL/rest; util\Anaf). Operations (setting `operation`):
 	upload      send an invoice's XML (UBL 2.1 / CIUS-RO; a credit note, CII, or a buyer's message) for a CIF (upload?standard=&cif=[&extern=DA][&autofactura=DA]):
 	            { uploadId, date }; ANAF checks it afterwards (status)
 	status      the state of an upload (stareMesaj?id_incarcare=): { state (ok | nok | in prelucrare | XML cu erori nepreluat de sistem), ready (ANAF is done), ok, downloadId

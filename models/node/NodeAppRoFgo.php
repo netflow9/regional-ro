@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new step: FGO - invoices in FGO (API v7; util\Fgo), for the credential's company. Operations (setting `operation`):
+    FGO - invoices in FGO (API v7; util\Fgo), for the credential's company. Operations (setting `operation`):
 	invoice       issue an invoice (factura/emitere): the body as FGO names it (Document: Client, Continut, ...; Serie from Series, Valuta RON and TipFactura Factura when it has
 	              none): { Numar, Serie, Link (the PDF), LinkPlata }
 	print         an invoice's PDF (factura/print): its link, and the PDF saved in the project's Files (Save the PDF)

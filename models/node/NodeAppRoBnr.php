@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T12:00:00+02:00: new step: BNR Exchange Rates - the reference rates of the National Bank of Romania (util\Bnr; public, no credential). Operations (setting `operation`):
+    BNR Exchange Rates - the reference rates of the National Bank of Romania (util\Bnr; public, no credential). Operations (setting `operation`):
 	rates       the rates of a day (empty: the latest), of some currencies (empty: all): { date (the banking day used: the last on or before the one asked), requested, base RON,
 	            rates { EUR: 4.97, ... }: RON for 1 unit }
 	convert     an amount from a currency to another (RON or one of BNR's) at a day's rates: { amount, from, to, rate (of 1 `from` in `to`), result (rounded to Decimals), date, requested }

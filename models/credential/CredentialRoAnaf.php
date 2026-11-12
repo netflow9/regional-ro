@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T12:00:00+02:00: new: ANAF's API through OAuth (SPV), for the e-Factura and e-Transport steps (util\Anaf). The OAuth app is registered in ANAF's portal by the
+    ANAF's API through OAuth (SPV), for the e-Factura and e-Transport steps (util\Anaf). The OAuth app is registered in ANAF's portal by the
     holder of a qualified certificate (anaf.ro > Servicii online > Înregistrare utilizatori > Editare profil Oauth: the services E-Factura and/or E-Transport, the redirect URI below);
     Connect opens logincert.anaf.ro, which asks the browser for that certificate (the token: plugged in). The access token lasts 90 days, the refresh token 365: after a year, Connect again.
     The company (CIF) the steps act for by default; ANAF's test environment (api.anaf.ro/test) or production. Test: a token, and the e-Factura messages of the last day of the CIF.

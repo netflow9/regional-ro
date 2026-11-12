@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new step: FAN Courier - shipments with FAN Courier (API 2.0; util\FanCourier), for the credential's client (clientId). Operations (setting `operation`):
+    FAN Courier - shipments with FAN Courier (API 2.0; util\FanCourier), for the credential's client (clientId). Operations (setting `operation`):
 	awb / tariff   make an internal AWB (POST intern-awb: { awbNumber, tariff, vat, ..., estimatedDeliveryTime }) or only its price (GET reports/awb/internal-tariff: { weightCost,
 	               fuelCost, costNoVAT, vat, total, ... }): the service (Standard, Cont Colector, ...), parcels, envelopes, weight, dimensions, who pays, cash on delivery, declared
 	               value, options (letters: X ePOD, A, S, ...), notes, content, cost center, the recipient (name, contact person, phone, email, county, locality, street, number,

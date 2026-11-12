@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: the client of FAN Courier's API 2.0 (https://api.fancourier.ro; the selfAWB user), for the FAN Courier step and credential. Sign-in: POST
+    the client of FAN Courier's API 2.0 (https://api.fancourier.ro; the selfAWB user), for the FAN Courier step and credential. Sign-in: POST
     /login?username=&password= -> { status, data: { token, expiresAt } } (24 hours; kept in the process: Rest::token), then Authorization: Bearer. Most calls name the client (clientId:
     the sender's branch). The answers: { status: success | error, data, message }; the lists' parameters as name[]= (awb[], awbs[]).
 	$f->call($method, $path, $query, $json)   the answer's JSON (a 401 signs in again, once); errors as \RuntimeException

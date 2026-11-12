@@ -1,7 +1,7 @@
 <?php
 
 /*
-    CLD: 2026-11-10T16:00:00+02:00: new: one request of the RegionalRO services' clients (SmartBill, FGO, Sameday, FAN Courier, Cargus), through util\Http: https, the public-address
+    one request of the RegionalRO services' clients (SmartBill, FGO, Sameday, FAN Courier, Cargus), through util\Http: https, the public-address
     guard, the step's time left, the largest answer. Rest::send($method, $url, $o, $start, $timeout): Http's answer + `data` (the body as JSON, null when it is not); no answer
     (a network error, too large) is a \RuntimeException. Rest::query($params): a query string, lists as name[]=.. (PHP's style, as these APIs read them)
     The tokens of the services that sign in (Sameday, FAN Courier, Cargus) are kept in the process (tokens()), not saved: the daemon reuses them until they expire
